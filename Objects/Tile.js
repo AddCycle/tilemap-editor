@@ -1,4 +1,4 @@
-const TILE_SIZE = 32;
+import {TILE_SIZE} from '../app.js';
 
 export class Tile {
   constructor(

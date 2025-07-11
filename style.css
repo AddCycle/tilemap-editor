@@ -100,3 +100,11 @@ button:nth-child(10) {
   margin: auto;
   display: block;
 }
+
+.options {
+  position: absolute;
+  right: 10px;
+  width: 300px;
+  height: 600px;
+  background-color: white;
+}

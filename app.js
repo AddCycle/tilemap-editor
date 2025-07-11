@@ -1,11 +1,11 @@
 import { Tile } from "./Objects/Tile.js";
 
-const TILE_SIZE = 32;
+export var TILE_SIZE = 32;
 const canvas = document.getElementById('content');
 canvas.width = 1024;
 canvas.height = 512;
-const COLS = canvas.width / TILE_SIZE;
-const ROWS = canvas.height / TILE_SIZE;
+var COLS = canvas.width / TILE_SIZE;
+var ROWS = canvas.height / TILE_SIZE;
 
 const ctx = canvas.getContext('2d');
 
@@ -96,6 +96,8 @@ function init() {
   initTiles(4, 1);
 
   initButtons();
+
+  initOptions();
 }
 
 function applicationLoop() {
@@ -240,6 +242,27 @@ function initTiles(width, height) { // maybe add the tileSize
     }
   }
   currentTile = types[0]; // default so can see preview grass now
+}
+
+function initOptions() {
+  const options = document.getElementById('options');
+  document.getElementById('optionWidth').addEventListener('input', (e) => {
+    const val = e.target.value || 0;
+    document.getElementById('opt-width').innerHTML = `Width : ${val}`;
+    canvas.width = val * TILE_SIZE;
+    COLS = canvas.width / TILE_SIZE;
+  });
+  document.getElementById('optionHeight').addEventListener('input', (e) => {
+    const val = e.target.value || 0;
+    document.getElementById('opt-height').innerHTML = `Height : ${val}`;
+    canvas.height = val * TILE_SIZE;
+    ROWS = canvas.width / TILE_SIZE;
+  });
+  document.getElementById('optionTileSize').addEventListener('input', (e) => {
+    const val = e.target.value || 0;
+    document.getElementById('opt-tilesize').innerHTML = `TileSize : ${val} (should match your tiles size)`;
+    TILE_SIZE = val;
+  });
 }
 
 function initButtons() {
