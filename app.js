@@ -16,10 +16,6 @@ let hoverTile = null;
 let currentTile = null;
 let eraseMode = false;
 const types = [];
-let grass;
-let water;
-let wall;
-let sand;
 
 function drawGrid() {
   for (let i = 0; i < COLS; i++) {
@@ -96,7 +92,8 @@ function draw() {
 }
 
 function init() {
-  initTiles();
+  // initTiles(tilemap?.image?.width, tilemap?.image?.height, TILE_SIZE);
+  initTiles(4, 1);
 
   initButtons();
 }
@@ -152,13 +149,13 @@ function saveLevel(level) {
   window.URL.revokeObjectURL(url);
 }
 
-// load function (TO UNDERSTAND)
+// load function
 function loadLevel(content) {
   tiles.length = 0; // Clear existing tiles
 
   const lines = content.trim().split('\n');
   for (let y = 0; y < lines.length; y++) {
-    const types = lines[y].trim().split(/\s+/); // split on spaces
+    const types = lines[y].trim().split(/\s+/); // split every space
     for (let x = 0; x < types.length; x++) {
       const type = parseInt(types[x], 10);
       if (type >= 0) {
@@ -168,10 +165,7 @@ function loadLevel(content) {
   }
 
   console.log("Level loaded", tiles);
-  // Optionally re-render after load
-  // draw(); // or whatever function renders the grid
 }
-
 
 // Mouse variables
 let isMouseDown = false;
@@ -239,29 +233,26 @@ canvas.addEventListener('mouseleave', (e) => {
 canvas.addEventListener('contextmenu', event => event.preventDefault());
 
 // TILES IMAGES
-function initTiles() {
-  grass = new Tile(tilemap, 0, 0);
-  water = new Tile(tilemap, 1, 0);
-  wall = new Tile(tilemap, 2, 0);
-  sand = new Tile(tilemap, 3, 0);
-  types.push(grass, water, wall, sand);
-  currentTile = grass; // default so can see preview
+function initTiles(width, height) { // maybe add the tileSize
+  for (let i = 0; i < width; i++) {
+    for (let j = 0; j < height; j++) {
+      types.push(new Tile(tilemap, i, j));
+    }
+  }
+  currentTile = types[0]; // default so can see preview grass now
 }
 
 function initButtons() {
   const parent = document.querySelector('.tiles');
-  parent.querySelector('#tile1').addEventListener('click', () => {
-    currentTile = grass;
-  });
-  parent.querySelector('#tile2').addEventListener('click', () => {
-    currentTile = water;
-  });
-  parent.querySelector('#tile3').addEventListener('click', () => {
-    currentTile = wall;
-  });
-  parent.querySelector('#tile4').addEventListener('click', () => {
-    currentTile = sand;
-  });
+  for (let i = 0; i < types.length; i++) {
+    const btn = document.createElement('button');
+    btn.id = `tile${i+1}`;
+    btn.className = 'tile';
+    btn.addEventListener('click', () => {
+      currentTile = types[i];
+    });
+    parent.appendChild(btn);
+  }
 
   // clear button
   parent.querySelector('#clear').addEventListener('click', () => {
@@ -298,20 +289,19 @@ function initButtons() {
   });
 
   // load tilemap actual logic
-  // not working for now : needs to change the current tiles
   parent.querySelector('#loadTileMap').addEventListener('change', function (event) {
-    // const file = event.target.files[0];
-    // if (!file) return;
+    const file = event.target.files[0];
+    if (!file) return;
 
-    // const reader = new FileReader();
-    // reader.onload = function (e) {
-    //   tilemapImage.src = e.target.result;
-    //   tilemapImage.onload = () => {
-    //     console.log('Tilemap image loaded!');
-    //     draw(); // re-draw with new tilemap
-    //   };
-    // };
-    // reader.readAsDataURL(file);
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      tilemap.src = e.target.result;
+      tilemap.onload = () => {
+        console.log('Tilemap image loaded!');
+        draw(); // re-draw with new tilemap
+      };
+    };
+    reader.readAsDataURL(file);
   });
 }
 

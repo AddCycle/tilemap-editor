@@ -8,12 +8,11 @@
   <link rel="icon" href="./favicon.ico" />
 </head>
 <body>
+  <script src="./app.js" type="module"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.1/ace.js" type="text/javascript" charset="utf-8"></script>
+
   <h1>TileMap Editor</h1>
   <nav class="tiles">
-    <button class="tile" id="tile1"></button>
-    <button class="tile" id="tile2"></button>
-    <button class="tile" id="tile3"></button>
-    <button class="tile" id="tile4"></button>
     <button class="txt-btn" id="save">SAVE</button>
     <button class="txt-btn" id="triggerLoadLevel">LOAD LEVEL</button>
     <button class="txt-btn" id="triggerLoadTileMap">LOAD TILEMAP (dev)</button>
@@ -22,7 +21,45 @@
     <button class="txt-btn" id="clear">CLEAR</button>
   </nav>
   <canvas id="content"></canvas>
+    <div id="editor">// JS tile loader for you projects triggered by a button or input
+parent.querySelector('#loadLevel').addEventListener('change', function (event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const content = e.target.result;
+    loadLevel(content);
+  };
+  reader.readAsText(file);
+});
 
-  <script src="./app.js" type="module"></script>
+// load function
+tiles = [];
+types = [ tile1, tile2, tile3, ];
+function loadLevel(content) {
+  tiles.length = 0; // Clear existing tiles
+
+  const lines = content.trim().split('\n');
+  for (let y = 0; y < lines.length; y++) {
+    const types = lines[y].trim().split(/\s+/); // split every space
+    for (let x = 0; x < types.length; x++) {
+      const type = parseInt(types[x], 10);
+      if (type >= 0) {
+        tiles.push({ x, y, type });
+      }
+    }
+  }
+
+  console.log("Level loaded", tiles);
+}</div>
+
+
+  <script>
+    console.log("hello");
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/javascript");
+  </script>
 </body>
 </html>

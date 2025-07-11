@@ -41,22 +41,22 @@ button, .tile {
   background-size: 640px 640px;
 }
 
-button:nth-child(1) {
+button:nth-child(7) {
   background-image: url('./assets/tilemap.png');
   background-position: -0px -0px;
 }
 
-button:nth-child(2) {
+button:nth-child(8) {
   background-image: url('./assets/tilemap.png');
   background-position: -80px -0px;
 }
 
-button:nth-child(3) {
+button:nth-child(9) {
   background-image: url('./assets/tilemap.png');
   background-position: -160px -0px;
 }
 
-button:nth-child(4) {
+button:nth-child(10) {
   background-image: url('./assets/tilemap.png');
   background-position: -240px -0px;
 }
@@ -87,4 +87,16 @@ button:nth-child(4) {
 
 .loader {
   display: none;
+}
+
+#editor { 
+  position: absolute;
+  inset: 0;
+  top: 70%;
+  bottom: 20px;
+  width: 50%;
+  height: 30%;
+  padding: 0;
+  margin: auto;
+  display: block;
 }
