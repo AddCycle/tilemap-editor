@@ -34,7 +34,7 @@ canvas {
   background-color: lightblue;
 }
 
-button.tile {
+button, .tile {
   margin: 10px;
   width: 80px;
   height: 80px;
@@ -55,7 +55,36 @@ button:nth-child(3) {
   background-image: url('./assets/tilemap.png');
   background-position: -160px -0px;
 }
+
 button:nth-child(4) {
   background-image: url('./assets/tilemap.png');
   background-position: -240px -0px;
+}
+
+.txt-btn {
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+  font-style: italic;
+
+  text-align: center;
+}
+
+#save {
+  background-color: red;
+}
+
+#triggerLoadLevel {
+  background-color: blue;
+}
+
+#triggerLoadTileMap {
+  background-color: green;
+}
+
+#clear {
+  background-color: black;
+}
+
+.loader {
+  display: none;
 }
