@@ -12,6 +12,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.1/ace.js" type="text/javascript" charset="utf-8"></script>
 
   <h1>TileMap Editor</h1>
+  <canvas id="content"></canvas>
   <nav class="tiles">
     <button class="txt-btn" id="save">SAVE</button>
     <button class="txt-btn" id="triggerLoadLevel">LOAD LEVEL</button>
@@ -27,14 +28,15 @@
     <input id="optionHeight" class="opt-field" type="range" min="1" max="32" value="16" placeholder="height" step="1" />
     <p id="opt-tilesize">TileSize : 32 (should match your tiles size)</p>
     <input id="optionTileSize" type="range" min="10" max="64" value="32" placeholder="tilesize" step="2" />
-    <p id="zoomfactor">ZoomFactor : 1 (dev)</p>
-    <input id="opt-zoom" type="range" min="10" max="64" value="32" placeholder="zoom" step="2" />
-    <p id="camera-move">Camera moves : (dev)</p>
+    <!-- <p id="zoomfactor">ZoomFactor : 1 (dev)</p>
+    <input id="opt-zoom" type="range" min="10" max="64" value="32" placeholder="zoom" step="2" /> -->
+    <!-- <p id="camera-move">Camera moves : (dev)</p>
     <input id="opt-camera" type="range" min="10" max="64" value="32" placeholder="camera" step="1" />
     <p id="drag-move">Drag hand freecam tool : (dev)</p>
-    <input id="opt-hand" type="range" min="10" max="64" value="32" placeholder="freecam" step="1" />
+    <input id="opt-hand" type="range" min="10" max="64" value="32" placeholder="freecam" step="1" /> -->
+    <p id="tilemap-tiles-info">TILES in your tilemap : 4 (dev)</p>
+    <input id="tilemap-tiles" type="range" min="4" max="64" value="4" placeholder="tiles" step="1" />
   </nav>
-  <canvas id="content"></canvas>
     <div id="editor">// JS tile loader for you projects triggered by a button or input
 parent.querySelector('#loadLevel').addEventListener('change', function (event) {
   const file = event.target.files[0];
@@ -67,7 +69,6 @@ function loadLevel(content) {
 
   console.log("Level loaded", tiles);
 }</div>
-
 
   <script>
     console.log("hello");

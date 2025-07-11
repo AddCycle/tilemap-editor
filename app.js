@@ -1,6 +1,7 @@
 import { Tile } from "./Objects/Tile.js";
 
 export var TILE_SIZE = 32;
+var TILES_COUNT = 4;
 const canvas = document.getElementById('content');
 canvas.width = 1024;
 canvas.height = 512;
@@ -74,6 +75,7 @@ function processClick(clickX, clickY, type) {
 
 function drawTiles() {
   for (const tile of tiles) {
+    console.log(tiles);
     getTileOfType(tile.type).draw(ctx, tile.x, tile.y);
   }
 }
@@ -92,8 +94,8 @@ function draw() {
 }
 
 function init() {
-  // initTiles(tilemap?.image?.width, tilemap?.image?.height, TILE_SIZE);
-  initTiles(4, 1);
+  console.log(tilemap);
+  initTiles(tilemap?.width, tilemap?.height, TILES_COUNT, TILE_SIZE);
 
   initButtons();
 
@@ -235,12 +237,17 @@ canvas.addEventListener('mouseleave', (e) => {
 canvas.addEventListener('contextmenu', event => event.preventDefault());
 
 // TILES IMAGES
-function initTiles(width, height) { // maybe add the tileSize
-  for (let i = 0; i < width; i++) {
-    for (let j = 0; j < height; j++) {
-      types.push(new Tile(tilemap, i, j));
+function initTiles(width, height, tilesNumber, tileSize = TILE_SIZE) { // maybe add the tileSize
+  let RW = width / tileSize;
+  let CL = height / tileSize;
+  types.length = 0;
+  for (let i = 0; i < RW; i++) {
+    for (let j = 0; j < CL; j++) {
+      const index = i * CL + j;
+      if (index < tilesNumber) types.push(new Tile(tilemap, j, i));
     }
   }
+  console.log(types)
   currentTile = types[0]; // default so can see preview grass now
 }
 
@@ -263,6 +270,26 @@ function initOptions() {
     document.getElementById('opt-tilesize').innerHTML = `TileSize : ${val} (should match your tiles size)`;
     TILE_SIZE = val;
   });
+  document.getElementById('tilemap-tiles').addEventListener('input', (e) => {
+    const val = e.target.value || 0;
+    document.getElementById('tilemap-tiles-info').innerHTML = `ACTUAL NON EMPTY TILES in your tilemap : ${val} (dev)`;
+    TILES_COUNT = val;
+  });
+}
+
+function resetButtons() {
+  const parent = document.querySelector('.tiles');
+  parent.querySelectorAll('.tile').forEach(b => b.remove()); // nuke old buttons
+
+  types.forEach((_t, i) => {
+    const btn = document.createElement('button');
+    btn.id = `tile${i + 1}`;
+    btn.className = 'tile';
+    btn.addEventListener('click', () => {
+      currentTile = types[i];
+    });
+    parent.appendChild(btn);
+  });
 }
 
 function initButtons() {
@@ -272,7 +299,9 @@ function initButtons() {
     btn.id = `tile${i+1}`;
     btn.className = 'tile';
     btn.addEventListener('click', () => {
+      console.log(`button${i+1} click : `)
       currentTile = types[i];
+      console.log(currentTile)
     });
     parent.appendChild(btn);
   }
@@ -320,6 +349,8 @@ function initButtons() {
     reader.onload = function (e) {
       tilemap.src = e.target.result;
       tilemap.onload = () => {
+        initTiles(tilemap.width, tilemap.height, TILES_COUNT, TILE_SIZE);
+        resetButtons();
         console.log('Tilemap image loaded!');
         draw(); // re-draw with new tilemap
       };

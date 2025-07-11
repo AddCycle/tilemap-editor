@@ -104,7 +104,8 @@ button:nth-child(10) {
 .options {
   position: absolute;
   right: 10px;
+  top: 20px;
   width: 300px;
   height: 600px;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.5);
 }
