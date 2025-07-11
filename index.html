@@ -8,12 +8,10 @@
   <link rel="icon" href="./favicon.ico" />
 </head>
 <body>
-  <script src="./app.js" type="module"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.1/ace.js" type="text/javascript" charset="utf-8"></script>
 
   <h1>TileMap Editor</h1>
   <canvas id="content"></canvas>
-  <nav class="tiles">
+  <nav class="tiles" id="tiles">
     <button class="txt-btn" id="save">SAVE</button>
     <button class="txt-btn" id="triggerLoadLevel">LOAD LEVEL</button>
     <button class="txt-btn" id="triggerLoadTileMap">LOAD TILEMAP (dev)</button>
@@ -36,6 +34,8 @@
     <input id="opt-hand" type="range" min="10" max="64" value="32" placeholder="freecam" step="1" /> -->
     <p id="tilemap-tiles-info">TILES in your tilemap : 4 (dev)</p>
     <input id="tilemap-tiles" type="range" min="4" max="64" value="4" placeholder="tiles" step="1" />
+    <p id="hide-info">HIDE ELEMENTS with space bar or H key</p>
+    <input id="hide" type="checkbox" />
   </nav>
     <div id="editor">// JS tile loader for you projects triggered by a button or input
 parent.querySelector('#loadLevel').addEventListener('change', function (event) {
@@ -70,8 +70,10 @@ function loadLevel(content) {
   console.log("Level loaded", tiles);
 }</div>
 
+  <script src="./app.js" type="module"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.1/ace.js" type="text/javascript" charset="utf-8"></script>
+
   <script>
-    console.log("hello");
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.session.setMode("ace/mode/javascript");

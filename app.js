@@ -16,6 +16,7 @@ tilemap.src = './assets/tilemap.png';
 let hoverTile = null;
 let currentTile = null;
 let eraseMode = false;
+let areElementsHidden = false;
 const types = [];
 
 function drawGrid() {
@@ -275,6 +276,16 @@ function initOptions() {
     document.getElementById('tilemap-tiles-info').innerHTML = `ACTUAL NON EMPTY TILES in your tilemap : ${val} (dev)`;
     TILES_COUNT = val;
   });
+  document.getElementById('hide').addEventListener('input', (e) => {
+    if (!areElementsHidden) {
+      hideElements();
+    } else {
+      showElements();
+    }
+    areElementsHidden = !areElementsHidden;
+    let state = areElementsHidden ? "HIDE" : "SHOW";
+    document.getElementById('hide-info').innerHTML = `${state} ELEMENTS`;
+  });
 }
 
 function resetButtons() {
@@ -363,3 +374,27 @@ tilemap.onload = () => {
   init();
   applicationLoop();
 };
+
+function hideElements() {
+  document.getElementById('editor').style.display = 'none';
+  document.getElementById('options').style.display = 'none';
+  document.getElementById('tiles').style.display = 'none';
+}
+
+function showElements() {
+  document.getElementById('editor').style.display = 'block';
+  document.getElementById('options').style.display = 'block';
+  document.getElementById('tiles').style.display = 'block';
+}
+
+// Some keys to hide the tools
+window.addEventListener('keypress', (e) => {
+  if (e.code === 'Space' || e.code === 'KeyH') {
+    if (!areElementsHidden) {
+      hideElements();
+    } else {
+      showElements();
+    }
+    areElementsHidden = !areElementsHidden;
+  }
+})
